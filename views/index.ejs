@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harry Potter Bookstore</title>
+</head>
+<body>
+    <h1>โปรโมชันแฮร์รี่ พอตเตอร์</h1>
+    
+    <form action="/calculate" method="POST">
+        <h2>เลือกหนังสือที่ต้องการซื้อ:</h2>
+        <% books.forEach((book, index) => { %>
+            <div>
+                <label for="book<%= index %>"><%= book %></label>
+                <br>
+                <label for="quantities<%= index %>">จำนวนหนังสือ</label>
+                <input type="number" id="quantities<%= index %>" name="quantities[]" min="0" value="0" required>
+            </div>
+        <% }) %>
+
+        <button type="submit">คำนวณราคา</button>
+    </form>
+    
+    <hr>
+
+    <h3>ผลลัพธ์:</h3>
+    <p>ราคาทั้งหมด: <%= totalPrice %> บาท</p>
+    <p>ส่วนลด: <%= discount %> บาท</p>
+    <p>ราคาสุทธิ: <%= finalPrice %> บาท</p>
+
+    <% if (selectedBooks.length > 0) { %>
+        <h4>หนังสือที่เลือก:</h4>
+        <ul>
+            <% selectedBooks.forEach(book => { %>
+                <li><%= book %></li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>ยังไม่ได้เลือกหนังสือ</p>
+    <% } %>
+</body>
+</html>
