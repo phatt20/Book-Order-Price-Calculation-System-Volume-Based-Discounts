@@ -18,13 +18,13 @@ const books = [
 ];
 
 
-function calculatePrice(selectedQuantities) {
+function calculatePrice(checkQuantities) {
 
-    const uniqueBooks = selectedQuantities.filter((quantity) => quantity > 0); //หาที่มากกว่า 0 เพื่อดูสั่งทั้งหมดกี่ประภท
+    const uniqueBooks = checkQuantities.filter((quantity) => quantity > 0); //หาที่มากกว่า 0 เพื่อดูสั่งทั้งหมดกี่ประภท
     const totalBooks = uniqueBooks.length;
     let discount = 0;
 
-    // คำนวณส่วนลดตามจำนวนเล่มที่ไม่ซ้ำกัน
+    
     switch (totalBooks) {
         case 2:
             discount = 0.10 * 100 * 2; // discount * default * count
@@ -48,7 +48,8 @@ function calculatePrice(selectedQuantities) {
             discount = 0;
     }
 
-    const totalPrice = selectedQuantities.reduce((sum, qty) => sum + (qty > 0 ? qty * 100 : 0), 0);  //loop ผ่านทุกตัว find total
+    const totalPrice = checkQuantities.reduce((sum, qty) => sum + (qty > 0 ? qty * 100 : 0), 0);  
+   
     const finalPrice = totalPrice - discount;
 
     return { totalPrice, discount, finalPrice };
