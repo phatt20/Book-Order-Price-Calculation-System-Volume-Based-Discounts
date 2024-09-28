@@ -17,39 +17,42 @@ const books = [
     'แฮร์รี่ พอตเตอร์ กับ เครื่องรางยมทูต'
 ];
 
-
 function calculatePrice(checkQuantities) {
-
-    const uniqueBooks = checkQuantities.filter((quantity) => quantity > 0); //หาที่มากกว่า 0 เพื่อดูสั่งทั้งหมดกี่ประภท
+    const pricePerBook = 100;
+    const uniqueBooks = checkQuantities.filter(quantity => quantity > 0); 
     const totalBooks = uniqueBooks.length;
-    let discount = 0;
+    let discountPercentage = 0;
 
-    
+ 
     switch (totalBooks) {
         case 2:
-            discount = 0.10 * 100 * 2; // discount * default * count
+            discountPercentage = 0.10; 
             break;
         case 3:
-            discount = 0.20 * 100 * 3;
+            discountPercentage = 0.20; 
             break;
         case 4:
-            discount = 0.30 * 100 * 4;
+            discountPercentage = 0.30; 
             break;
         case 5:
-            discount = 0.40 * 100 * 5;
+            discountPercentage = 0.40; 
             break;
         case 6:
-            discount = 0.50 * 100 * 6;
+            discountPercentage = 0.50;
             break;
         case 7:
-            discount = 0.60 * 100 * 7;
+            discountPercentage = 0.60; 
             break;
         default:
-            discount = 0;
+            discountPercentage = 0; 
     }
 
-    const totalPrice = checkQuantities.reduce((sum, qty) => sum + (qty > 0 ? qty * 100 : 0), 0);  
    
+    const totalPrice = checkQuantities.reduce((sum, qty) => sum + (qty * pricePerBook), 0);
+
+    const discount = totalPrice * discountPercentage;
+
+    
     const finalPrice = totalPrice - discount;
 
     return { totalPrice, discount, finalPrice };
@@ -60,15 +63,9 @@ router.get('/', (req, res) => {
     res.render('index', { books, totalPrice: 0, discount: 0, finalPrice: 0, selectedBooks: [], quantities: [] });
 });
 
-
 router.post('/calculate', (req, res) => {
-    console.log(req.body.quantities);
-
     const quantities = req.body.quantities ? req.body.quantities.map(Number) : [];
-
     const { totalPrice, discount, finalPrice } = calculatePrice(quantities);
-
-
     const selectedBooks = books.filter((_, index) => quantities[index] > 0);
 
     res.render('index', { books, totalPrice, discount, finalPrice, selectedBooks, quantities });
